@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator - BTS ARMY MATH SIDE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables matching your theme */
+        :root {
+            --primary-color: #9d4edd;
+            --primary-glow: rgba(157, 78, 221, 0.4);
+            --accent-pink: #ff85a2;
+            --accent-pink-glow: rgba(255, 133, 162, 0.3);
+            --text-color: #f3f0f7;
+            --text-muted: #c77dff;
+            --panel-bg: rgba(20, 10, 35, 0.65);
+            --border-radius: 20px;
+            --card-shadow: 0 8px 32px 0 rgba(123, 44, 191, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0b0514;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cosmic Nebula Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(123, 44, 191, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 133, 162, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, rgba(60, 9, 108, 0.3) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        /* Soft Animated Orbs */
+        .nebula-glow-1, .nebula-glow-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: drift 20s infinite ease-in-out alternate;
+        }
+
+        .nebula-glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-glow);
+            top: 10%;
+            left: -10%;
+        }
+
+        .nebula-glow-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-pink-glow);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -10s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.2); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 10, 35, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #e0aaff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(224, 170, 255, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(157, 78, 221, 0.25);
+            box-shadow: inset 0 0 10px rgba(157, 78, 221, 0.2);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Banner */
+        .banner {
+            text-align: center;
+            padding: 2rem 1rem 1.5rem 1rem;
+        }
+
+        .banner h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #c77dff, var(--accent-pink), #e0aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+            filter: drop-shadow(0 4px 15px rgba(199, 125, 255, 0.3));
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* PHONE CALCULATOR CONTAINER */
+        .calc-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 5rem;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 360px;
+            background: rgba(15, 7, 26, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 40px;
+            padding: 1.8rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(157, 78, 221, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        /* Screen Display */
+        .calculator-screen {
+            background: rgba(10, 4, 18, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.2rem;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 110px;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .previous-operand {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            min-height: 1.4rem;
+        }
+
+        .current-operand {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Keypad Grid */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .btn {
+            border: 1px solid var(--glass-border);
+            outline: none;
+            height: 62px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        .btn:active {
+            transform: scale(0.92);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Special Button Styles */
+        .btn.function {
+            background: rgba(199, 125, 255, 0.15);
+            color: var(--text-muted);
+        }
+
+        .btn.function:hover {
+            background: rgba(199, 125, 255, 0.3);
+        }
+
+        .btn.operator {
+            background: rgba(157, 78, 221, 0.4);
+            color: #fff;
+        }
+
+        .btn.operator:hover {
+            background: rgba(157, 78, 221, 0.7);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn.equals {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-pink));
+            color: #fff;
+        }
+
+        .btn.equals:hover {
+            box-shadow: 0 0 20px var(--accent-pink-glow);
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+            border-radius: 30px;
+            justify-content: flex-start;
+            padding-left: 24px;
+        }
+
+        /* Glass Footer */
+        footer {
+            background: rgba(15, 7, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #8c7b9e;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 950px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1.2rem;
+                padding: 1.2rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nebula-glow-1"></div>
+    <div class="nebula-glow-2"></div>
+
+    <header class="container">
+        <nav class="navbar">
+            <div class="logo">🔮 BTS ARMY MATH SIDE</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculator.html" class="active">Calculator</a></li>
+                <li><a href="diameter.html">Diameter</a></li>
+                <li><a href="area.html">Area</a></li>
+                <li><a href="volume.html">Volume</a></li>
+                <li><a href="perimeter.html">Perimeter</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="banner">
+            <h1>Cosmic Calculator</h1>
+            <p>Calculate with the precision of the stars 💜</p>
+        </section>
+
+        <div class="calc-wrapper">
+            <div class="phone-frame">
+                <!-- Display -->
+                <div class="calculator-screen">
+                    <div class="previous-operand" id="previous-operand"></div>
+                    <div class="current-operand" id="current-operand">0</div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="calculator-grid">
+                    <button class="btn function" onclick="clearAll()">AC</button>
+                    <button class="btn function" onclick="deleteNumber()">DEL</button>
+                    <button class="btn function" onclick="appendOperator('%')">%</button>
+                    <button class="btn operator" onclick="appendOperator('÷')">÷</button>
+
+                    <button class="btn" onclick="appendNumber('7')">7</button>
+                    <button class="btn" onclick="appendNumber('8')">8</button>
+                    <button class="btn" onclick="appendNumber('9')">9</button>
+                    <button class="btn operator" onclick="appendOperator('×')">×</button>
+
+                    <button class="btn" onclick="appendNumber('4')">4</button>
+                    <button class="btn" onclick="appendNumber('5')">5</button>
+                    <button class="btn" onclick="appendNumber('6')">6</button>
+                    <button class="btn operator" onclick="appendOperator('-')">-</button>
+
+                    <button class="btn" onclick="appendNumber('1')">1</button>
+                    <button class="btn" onclick="appendNumber('2')">2</button>
+                    <button class="btn" onclick="appendNumber('3')">3</button>
+                    <button class="btn operator" onclick="appendOperator('+')">+</button>
+
+                    <button class="btn btn-zero" onclick="appendNumber('0')">0</button>
+                    <button class="btn" onclick="appendNumber('.')">.</button>
+                    <button class="btn equals" onclick="calculate()">=</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BTS ARMY MATH SIDE | Made with 💜 for ARMY</p>
+    </footer>
+
+    <script>
+        let currentOperand = '0';
+        let previousOperand = '';
+        let operation = undefined;
+
+        const currentDisplay = document.getElementById('current-operand');
+        const previousDisplay = document.getElementById('previous-operand');
+
+        function updateDisplay() {
+            currentDisplay.innerText = currentOperand;
+            if (operation != null) {
+                previousDisplay.innerText = `${previousOperand} ${operation}`;
+            } else {
+                previousDisplay.innerText = '';
+            }
+        }
+
+        function appendNumber(number) {
+            if (number === '.' && currentOperand.includes('.')) return;
+            if (currentOperand === '0' && number !== '.') {
+                currentOperand = number.toString();
+            } else {
+                currentOperand = currentOperand.toString() + number.toString();
+            }
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                calculate();
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+            updateDisplay();
+        }
+
+        function clearAll() {
+            currentOperand = '0';
+            previousOperand = '';
+            operation = undefined;
+            updateDisplay();
+        }
+
+        function deleteNumber() {
+            if (currentOperand === '0') return;
+            currentOperand = currentOperand.toString().slice(0, -1);
+            if (currentOperand === '') currentOperand = '0';
+            updateDisplay();
+        }
+
+        function calculate() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+
+            if (isNaN(prev) || isNaN(current)) return;
+
+            switch (operation) {
+                case '+':
+                    computation = prev + current;
+                    break;
+                case '-':
+                    computation = prev - current;
+                    break;
+                case '×':
+                    computation = prev * current;
+                    break;
+                case '÷':
+                    computation = current === 0 ? 'Error' : prev / current;
+                    break;
+                case '%':
+                    computation = (prev / 100) * current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentOperand = computation.toString();
+            operation = undefined;
+            previousOperand = '';
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>

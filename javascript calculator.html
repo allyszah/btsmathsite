@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allyssah's Pink Calculator</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 320px;
+            background: #fff0f6;
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .display {
+            background: #ffe4ec;
+            color: #b30059;
+            font-size: 42px;
+            padding: 20px;
+            text-align: right;
+            border-radius: 15px;
+            overflow-x: auto;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 18px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        button:active {
+            transform: scale(0.92);
+        }
+
+        .light {
+            background: #ffd6e8;
+            color: #b30059;
+        }
+
+        .dark {
+            background: #ff99c8;
+            color: white;
+        }
+
+        .operator {
+            background: #ff4d94;
+            color: white;
+        }
+
+        .zero {
+            grid-column: span 2;
+            border-radius: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+    <div class="display" id="display">0</div>
+
+    <div class="buttons">
+        <button class="light" onclick="clearDisplay()">AC</button>
+        <button class="light" onclick="append('/')">÷</button>
+        <button class="light" onclick="append('*')">×</button>
+        <button class="operator" onclick="append('-')">−</button>
+
+        <button class="dark" onclick="append('7')">7</button>
+        <button class="dark" onclick="append('8')">8</button>
+        <button class="dark" onclick="append('9')">9</button>
+        <button class="operator" onclick="append('+')">+</button>
+
+        <button class="dark" onclick="append('4')">4</button>
+        <button class="dark" onclick="append('5')">5</button>
+        <button class="dark" onclick="append('6')">6</button>
+        <button class="operator" onclick="calculate()">=</button>
+
+        <button class="dark" onclick="append('1')">1</button>
+        <button class="dark" onclick="append('2')">2</button>
+        <button class="dark" onclick="append('3')">3</button>
+        <button class="light" onclick="append('.')">.</button>
+
+        <button class="dark zero" onclick="append('0')">0</button>
+    </div>
+
+</div>
+
+<script>
+    let display = document.getElementById("display");
+
+    function append(value) {
+        if (display.innerText === "0") {
+            display.innerText = value;
+        } else {
+            display.innerText += value;
+        }
+    }
+
+    function clearDisplay() {
+        display.innerText = "0";
+    }
+
+    function calculate() {
+        try {
+            display.innerText = eval(display.innerText);
+        } catch {
+            display.innerText = "Error";
+        }
+    }
+</script>
+
+</body>
+</html>

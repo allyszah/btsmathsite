@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perimeter Finder - BTS ARMY MATH SITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for seamless, aesthetic theme control */
+        :root {
+            --primary-color: #9d4edd;
+            --primary-glow: rgba(157, 78, 221, 0.4);
+            --accent-pink: #ff85a2;
+            --accent-pink-glow: rgba(255, 133, 162, 0.3);
+            --text-color: #f3f0f7;
+            --text-muted: #c77dff;
+            --panel-bg: rgba(20, 10, 35, 0.6);
+            --border-radius: 20px;
+            --card-shadow: 0 8px 32px 0 rgba(123, 44, 191, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0b0514;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* AESTHETIC BACKGROUND DESIGN: Cosmic Nebula & Star Generator */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(123, 44, 191, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 133, 162, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, rgba(60, 9, 108, 0.3) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        /* Soft Animated Cosmic Dust Orbs */
+        .nebula-glow-1, .nebula-glow-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: drift 20s infinite ease-in-out alternate;
+        }
+
+        .nebula-glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-glow);
+            top: 10%;
+            left: -10%;
+        }
+
+        .nebula-glow-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-pink-glow);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -10s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.2); }
+        }
+
+        /* Container Limit */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* FLOATING GLASS NAVIGATION */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 10, 35, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #e0aaff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(224, 170, 255, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(157, 78, 221, 0.25);
+            box-shadow: inset 0 0 10px rgba(157, 78, 221, 0.2);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* HERO BANNER SECTION */
+        .banner {
+            text-align: center;
+            padding: 4rem 1rem 2.5rem 1rem;
+        }
+
+        .banner h1 {
+            font-size: 3.8rem;
+            background: linear-gradient(45deg, #c77dff, var(--accent-pink), #e0aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+            filter: drop-shadow(0 4px 15px rgba(199, 125, 255, 0.3));
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(199, 125, 255, 0.2);
+        }
+
+        /* TWO-COLUMN GRID SYSTEM */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin-top: 1rem;
+            padding-bottom: 6rem;
+        }
+
+        /* Main Workspace Panel */
+        .workspace-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Interactive Shape Tabs */
+        .shape-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .shape-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: #bfaecf;
+            padding: 1rem 0.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .shape-btn span {
+            font-size: 1.5rem;
+        }
+
+        .shape-btn:hover {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-color: rgba(157, 78, 221, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .shape-btn.active {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.4), rgba(255, 133, 162, 0.3));
+            border-color: var(--accent-pink);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 133, 162, 0.3);
+        }
+
+        /* Dynamic Inputs Styling */
+        .input-group {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .input-group.active {
+            display: block;
+        }
+
+        .input-box {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #d1c8e0;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        .input-box input {
+            width: 100%;
+            background: rgba(10, 5, 20, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .input-box input:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            background: rgba(20, 10, 35, 0.8);
+            box-shadow: 0 0 15px rgba(255, 133, 162, 0.2);
+        }
+
+        /* Action Buttons */
+        .calc-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-pink));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 133, 162, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* Output Display Area */
+        .result-box {
+            margin-top: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(157, 78, 221, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .result-box.computed {
+            background: rgba(157, 78, 221, 0.08);
+            border-style: solid;
+            border-color: var(--primary-color);
+        }
+
+        .result-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .result-value {
+            color: var(--accent-pink);
+            font-weight: 800;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 133, 162, 0.5);
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        /* Sidebar Section Panel */
+        .info-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .info-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(45deg, #fff, #c77dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-card p {
+            line-height: 1.7;
+            color: #d1c8e0;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .lyric-box {
+            font-style: italic;
+            color: var(--accent-pink);
+            font-weight: 300;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* GLASS FOOTER */
+        footer {
+            background: rgba(15, 7, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #8c7b9e;
+            letter-spacing: 1px;
+        }
+
+        /* Scrollbar customization */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0514;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-pink);
+        }
+
+        /* Responsive Layout for Tablet & Mobile */
+        @media (max-width: 950px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .shape-tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .banner h1 {
+                font-size: 2.8rem;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 1.2rem;
+                padding: 1.2rem;
+                border-radius: 20px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem 1rem;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nebula-glow-1"></div>
+    <div class="nebula-glow-2"></div>
+
+    <header class="container">
+        <nav class="navbar">
+            <div class="logo">🔮 BTS ARMY MATH SIDE</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="diameter.html">Diameter</a></li>
+                <li><a href="area.html">Area</a></li>
+                <li><a href="volume.html">Volume</a></li>
+                <li><a href="perimeter.html" class="active">Perimeter</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="banner">
+            <h1>Perimeter Finder</h1>
+            <p>“Find the line that binds your cosmic domain.” ✨</p>
+        </section>
+
+        <div class="calculator-grid">
+            
+            <div class="workspace-card">
+                <div class="shape-tabs">
+                    <button class="shape-btn active" onclick="switchShape('square')">
+                        <span>⬜</span>Square
+                    </button>
+                    <button class="shape-btn" onclick="switchShape('rectangle')">
+                        <span>▮</span>Rectangle
+                    </button>
+                    <button class="shape-btn" onclick="switchShape('circle')">
+                        <span>🟣</span>Circle
+                    </button>
+                    <button class="shape-btn" onclick="switchShape('triangle')">
+                        <span>🔺</span>Triangle
+                    </button>
+                </div>
+
+                <div id="square-inputs" class="input-group active">
+                    <div class="input-box">
+                        <label for="square-side">Side Length ($s$)</label>
+                        <input type="number" id="square-side" placeholder="Enter side length...">
+                    </div>
+                </div>
+
+                <div id="rectangle-inputs" class="input-group">
+                    <div class="input-box">
+                        <label for="rect-length">Length ($l$)</label>
+                        <input type="number" id="rect-length" placeholder="Enter length...">
+                    </div>
+                    <div class="input-box">
+                        <label for="rect-width">Width ($w$)</label>
+                        <input type="number" id="rect-width" placeholder="Enter width...">
+                    </div>
+                </div>
+
+                <div id="circle-inputs" class="input-group">
+                    <div class="input-box">
+                        <label for="circle-radius">Radius ($r$)</label>
+                        <input type="number" id="circle-radius" placeholder="Enter radius...">
+                    </div>
+                </div>
+
+                <div id="triangle-inputs" class="input-group">
+                    <div class="input-box">
+                        <label for="tri-a">Side A</label>
+                        <input type="number" id="tri-a" placeholder="Side A length...">
+                    </div>
+                    <div class="input-box">
+                        <label for="tri-b">Side B (Base)</label>
+                        <input type="number" id="tri-b" placeholder="Side B length...">
+                    </div>
+                    <div class="input-box">
+                        <label for="tri-c">Side C</label>
+                        <input type="number" id="tri-c" placeholder="Side C length...">
+                    </div>
+                </div>
+
+                <button class="calc-btn" onclick="calculatePerimeter()">COMPUTE BOUNDARY 💜</button>
+
+                <div class="result-box" id="result-box">
+                    <div class="result-text" id="result-text">Enter values and click compute to trace the boundary.</div>
+                </div>
+            </div>
+
+            <div class="info-column">
+                <section class="info-card">
+                    <h2>Tracing Horizons</h2>
+                    <p>The perimeter is the total path length surrounding a two-dimensional shape. For circular orbits, this custom spatial boundary is known as the <strong>circumference</strong>.</p>
+                    <p>Just like lines connecting star clusters together, understanding your boundaries keeps your system balanced perfectly.</p>
+                    <div class="lyric-box">
+                        "Cross the maze of your complex realities, you map the path out smoothly."
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BTS ARMY MATH SIDE | Made with 💜 for ARMY</p>
+    </footer>
+
+    <script>
+        let currentShape = 'square';
+
+        function switchShape(shape) {
+            currentShape = shape;
+            
+            // Clear past calculations 
+            document.getElementById('result-box').classList.remove('computed');
+            document.getElementById('result-text').innerHTML = 'Enter values and click compute to trace the boundary.';
+
+            // Reset tab highlights
+            const buttons = document.querySelectorAll('.shape-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Set current tab active
+            event.currentTarget.classList.add('active');
+
+            // Toggle dynamic configuration cards visible
+            const groups = document.querySelectorAll('.input-group');
+            groups.forEach(group => group.classList.remove('active'));
+            document.getElementById(`${shape}-inputs`).classList.add('active');
+        }
+
+        function calculatePerimeter() {
+            let perimeter = 0;
+            let outputLabel = "Perimeter";
+            const resultBox = document.getElementById('result-box');
+            const resultText = document.getElementById('result-text');
+
+            if (currentShape === 'square') {
+                const side = parseFloat(document.getElementById('square-side').value);
+                if (isNaN(side) || side <= 0) return alert("Please enter a valid positive number.");
+                perimeter = 4 * side;
+            } 
+            else if (currentShape === 'rectangle') {
+                const len = parseFloat(document.getElementById('rect-length').value);
+                const wid = parseFloat(document.getElementById('rect-width').value);
+                if (isNaN(len) || len <= 0 || isNaN(wid) || wid <= 0) return alert("Please fill all properties correctly.");
+                perimeter = 2 * (len + wid);
+            } 
+            else if (currentShape === 'circle') {
+                const rad = parseFloat(document.getElementById('circle-radius').value);
+                if (isNaN(rad) || rad <= 0) return alert("Please enter a valid radius.");
+                perimeter = 2 * Math.PI * rad;
+                outputLabel = "Circumference";
+            } 
+            else if (currentShape === 'triangle') {
+                const a = parseFloat(document.getElementById('tri-a').value);
+                const b = parseFloat(document.getElementById('tri-b').value);
+                const c = parseFloat(document.getElementById('tri-c').value);
+                if (isNaN(a) || a <= 0 || isNaN(b) || b <= 0 || isNaN(c) || c <= 0) return alert("Please fill all three sides.");
+                perimeter = a + b + c;
+            }
+
+            // Beautiful numeric rendering
+            resultBox.classList.add('computed');
+            resultText.innerHTML = `${outputLabel} Value <span class="result-value">${perimeter.toFixed(2)} units</span>`;
+        }
+    </script>
+</body>
+</html>

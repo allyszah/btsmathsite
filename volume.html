@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Sphere - BTS ARMY MATH SITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for seamless, aesthetic theme control */
+        :root {
+            --primary-color: #9d4edd;
+            --primary-glow: rgba(157, 78, 221, 0.4);
+            --accent-pink: #ff85a2;
+            --accent-pink-glow: rgba(255, 133, 162, 0.3);
+            --text-color: #f3f0f7;
+            --text-muted: #c77dff;
+            --panel-bg: rgba(20, 10, 35, 0.6);
+            --border-radius: 20px;
+            --card-shadow: 0 8px 32px 0 rgba(123, 44, 191, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0b0514;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* AESTHETIC BACKGROUND DESIGN: Cosmic Nebula & Star Generator */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(123, 44, 191, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 133, 162, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, rgba(60, 9, 108, 0.3) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        /* Soft Animated Cosmic Dust Orbs */
+        .nebula-glow-1, .nebula-glow-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: drift 20s infinite ease-in-out alternate;
+        }
+
+        .nebula-glow-1 { width: 400px; height: 400px; background: var(--primary-glow); top: 10%; left: -10%; }
+        .nebula-glow-2 { width: 500px; height: 500px; background: var(--accent-pink-glow); bottom: -10%; right: -10%; animation-delay: -10s; }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.2); }
+        }
+
+        /* Container Limit */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* FLOATING GLASS NAVIGATION */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 10, 35, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #e0aaff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(157, 78, 221, 0.25);
+            box-shadow: inset 0 0 10px rgba(157, 78, 221, 0.2);
+        }
+
+        /* HERO BANNER SECTION */
+        .banner {
+            text-align: center;
+            padding: 3rem 1rem 2rem 1rem;
+        }
+
+        .banner h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #c77dff, var(--accent-pink), #e0aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+            filter: drop-shadow(0 4px 15px rgba(199, 125, 255, 0.3));
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* DYNAMIC NAVIGATION TABS GRID SETUP (ENHANCED DESIGN DETAIL) */
+        .shape-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: rgba(20, 10, 35, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #bfaecf;
+            padding: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(157, 78, 221, 0.15);
+            color: #fff;
+            border-color: rgba(157, 78, 221, 0.4);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(255, 133, 162, 0.3));
+            border-color: var(--accent-pink);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 133, 162, 0.2);
+        }
+
+        .tab-icon {
+            font-size: 1.5rem;
+        }
+
+        /* TWO-COLUMN LAYOUT */
+        .solver-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            padding-bottom: 6rem;
+        }
+
+        .solver-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Advanced Input styling with Neomorphic Inner Glows */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #bfaecf;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(15, 7, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-pink);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), 0 0 12px rgba(255, 133, 162, 0.3);
+        }
+
+        .secondary-input { display: none; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #7b2cbf, var(--accent-pink));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3);
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 133, 162, 0.4);
+        }
+
+        /* Result Cosmic Box */
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px dashed rgba(157, 78, 221, 0.4);
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box h3 { font-size: 0.9rem; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .result-box p { font-size: 1.8rem; font-weight: 800; color: #fff; }
+
+        /* Formula Tracking Card Preview */
+        .info-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card h3 { color: var(--accent-pink); margin-bottom: 1rem; font-size: 1.2rem; }
+        .info-card p { font-size: 0.95rem; color: #bfaecf; line-height: 1.6; }
+
+        .formula-display {
+            margin-top: 1rem;
+            background: rgba(15, 7, 26, 0.5);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* GLASS FOOTER */
+        footer {
+            background: rgba(15, 7, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        footer p { font-size: 0.85rem; color: #8c7b9e; letter-spacing: 1px; }
+
+        @media (max-width: 950px) {
+            .solver-grid { grid-template-columns: 1fr; }
+            .shape-tabs { grid-template-columns: repeat(2, 1fr); }
+            .banner h1 { font-size: 2.8rem; }
+            .navbar { flex-direction: column; gap: 1.2rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nebula-glow-1"></div>
+    <div class="nebula-glow-2"></div>
+
+    <header class="container">
+        <nav class="navbar">
+            <div class="logo">🔮 BTS ARMY MATH SIDE</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="diameter.html">Diameter</a></li>
+                <li><a href="area.html">Area</a></li>
+                <li><a href="volume.html" class="active">Volume</a></li>
+                <li><a href="perimeter.html">Perimeter</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="banner">
+            <h1>Volume Sphere</h1>
+            <p>“We map the infinite spatial capacities of our galaxy, step by step.” 🔮</p>
+        </section>
+
+        <div class="shape-tabs">
+            <button class="tab-btn active" onclick="switchShape('sphere', this)">
+                <div class="tab-icon">🔮</div>
+                <span>Sphere</span>
+            </button>
+            <button class="tab-btn" onclick="switchShape('cylinder', this)">
+                <div class="tab-icon">🧪</div>
+                <span>Cylinder</span>
+            </button>
+            <button class="tab-btn" onclick="switchShape('cone', this)">
+                <div class="tab-icon">🍦</div>
+                <span>Cone</span>
+            </button>
+            <button class="tab-btn" onclick="switchShape('cube', this)">
+                <div class="tab-icon">📦</div>
+                <span>Cube</span>
+            </button>
+        </div>
+
+        <div class="solver-grid">
+            <div class="solver-card">
+                <h2 id="cardTitle">Sphere Volume Core</h2>
+                <br>
+                
+                <div class="input-group">
+                    <label for="val1" id="labelVal1">Radius (r)</label>
+                    <input type="number" id="val1" placeholder="e.g. 4" step="any" min="0">
+                </div>
+
+                <div class="input-group secondary-input" id="inputGroup2">
+                    <label for="val2" id="labelVal2">Height (h)</label>
+                    <input type="number" id="val2" placeholder="e.g. 10" step="any" min="0">
+                </div>
+
+                <button class="calc-btn" onclick="calculateVolume()">Solve Dynamic Volume ✨</button>
+
+                <div class="result-box" id="resultBox">
+                    <h3>Calculated Spatial Volume (V)</h3>
+                    <p id="resultText">0.00</p>
+                </div>
+            </div>
+
+            <div class="info-column">
+                <div class="info-card">
+                    <h3>Active Quantum Matrix</h3>
+                    <p>Current geometric mathematical equation configured within system parameters:</p>
+                    <div class="formula-display" id="formulaBox">V = ⁴⁄₃ π r³</div>
+                </div>
+
+                <div class="info-card" style="border-color: rgba(255, 133, 162, 0.2);">
+                    <h3>Microcosmos Paradox 💜</h3>
+                    <p>“Scale up the volume of your dreams until it outshines all restrictions.” Keep moving through calculations seamlessly with our custom cosmic engine layout!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BTS ARMY MATH SIDE | Made with 💜 for ARMY</p>
+    </footer>
+
+    <script>
+        let currentShape = 'sphere';
+
+        function switchShape(shape, element) {
+            currentShape = shape;
+            
+            // Clean active states across button tabs array elements
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            // Reset field states dynamically
+            document.getElementById('val1').value = "";
+            document.getElementById('val2').value = "";
+            document.getElementById('resultBox').style.display = 'none';
+
+            const cardTitle = document.getElementById('cardTitle');
+            const labelVal1 = document.getElementById('labelVal1');
+            const labelVal2 = document.getElementById('labelVal2');
+            const inputGroup2 = document.getElementById('inputGroup2');
+            const formulaBox = document.getElementById('formulaBox');
+
+            if (shape === 'sphere') {
+                cardTitle.innerText = "Sphere Volume Core";
+                labelVal1.innerText = "Radius (r)";
+                inputGroup2.style.display = "none";
+                formulaBox.innerText = "V = ⁴⁄₃ π r³";
+            } else if (shape === 'cylinder') {
+                cardTitle.innerText = "Cylinder Volume Core";
+                labelVal1.innerText = "Radius (r)";
+                labelVal2.innerText = "Vertical Height (h)";
+                inputGroup2.style.display = "block";
+                formulaBox.innerText = "V = π r² h";
+            } else if (shape === 'cone') {
+                cardTitle.innerText = "Cone Volume Core";
+                labelVal1.innerText = "Radius (r)";
+                labelVal2.innerText = "Vertical Height (h)";
+                inputGroup2.style.display = "block";
+                formulaBox.innerText = "V = ¹⁄₃ π r² h";
+            } else if (shape === 'cube') {
+                cardTitle.innerText = "Cube Volume Core";
+                labelVal1.innerText = "Side Dimension (s)";
+                inputGroup2.style.display = "none";
+                formulaBox.innerText = "V = s³";
+            }
+        }
+
+        function calculateVolume() {
+            const v1 = parseFloat(document.getElementById('val1').value);
+            const v2 = parseFloat(document.getElementById('val2').value);
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+
+            if (isNaN(v1) || v1 <= 0) {
+                alert("Please add a real dimension size value greater than 0! 🔮");
+                return;
+            }
+
+            let volume = 0;
+
+            if (currentShape === 'sphere') {
+                volume = (4/3) * Math.PI * Math.pow(v1, 3);
+            } else if (currentShape === 'cylinder') {
+                if (isNaN(v2) || v2 <= 0) { alert("Please provide valid vertical height! 🧪"); return; }
+                volume = Math.PI * Math.pow(v1, 2) * v2;
+            } else if (currentShape === 'cone') {
+                if (isNaN(v2) || v2 <= 0) { alert("Please provide valid vertical height! 🍦"); return; }
+                volume = (1/3) * Math.PI * Math.pow(v1, 2) * v2;
+            } else if (currentShape === 'cube') {
+                volume = Math.pow(v1, 3);
+            }
+
+            resultText.innerText = volume.toFixed(4).replace(/\.?0+$/, '');
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

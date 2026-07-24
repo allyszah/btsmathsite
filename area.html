@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Suite - BTS ARMY MATH SITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for seamless, aesthetic theme control */
+        :root {
+            --primary-color: #9d4edd;
+            --primary-glow: rgba(157, 78, 221, 0.4);
+            --accent-pink: #ff85a2;
+            --accent-pink-glow: rgba(255, 133, 162, 0.3);
+            --text-color: #f3f0f7;
+            --text-muted: #c77dff;
+            --panel-bg: rgba(20, 10, 35, 0.6);
+            --border-radius: 20px;
+            --card-shadow: 0 8px 32px 0 rgba(123, 44, 191, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Reset & Base Styles */
+        * {a
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0b0514;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* AESTHETIC BACKGROUND DESIGN: Cosmic Nebula & Star Generator */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(123, 44, 191, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 133, 162, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, rgba(60, 9, 108, 0.3) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        /* Soft Animated Cosmic Dust Orbs */
+        .nebula-glow-1, .nebula-glow-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: drift 20s infinite ease-in-out alternate;
+        }
+
+        .nebula-glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-glow);
+            top: 10%;
+            left: -10%;
+        }
+
+        .nebula-glow-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-pink-glow);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -10s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.2); }
+        }
+
+        /* Container Limit */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* FLOATING GLASS NAVIGATION */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 10, 35, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #e0aaff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(224, 170, 255, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(157, 78, 221, 0.25);
+            box-shadow: inset 0 0 10px rgba(157, 78, 221, 0.2);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* HERO BANNER SECTION */
+        .banner {
+            text-align: center;
+            padding: 3rem 1rem 2rem 1rem;
+        }
+
+        .banner h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #c77dff, var(--accent-pink), #e0aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+            filter: drop-shadow(0 4px 15px rgba(199, 125, 255, 0.3));
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* INTERACTIVE INTERFACE GRID */
+        .solver-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2.5rem;
+            margin-top: 1rem;
+            padding-bottom: 6rem;
+        }
+
+        /* Glassmorphic Calculator Panel */
+        .solver-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .solver-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #c77dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #bfaecf;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .input-group select, .input-group input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(15, 7, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group select:focus, .input-group input:focus {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 12px rgba(255, 133, 162, 0.3);
+        }
+
+        .input-group select option {
+            background-color: #140a23;
+            color: #fff;
+        }
+
+        /* Dual Input Frame Setup */
+        .secondary-input {
+            display: none;
+        }
+
+        /* Purple Cosmic Button */
+        .calc-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #7b2cbf, var(--accent-pink));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 133, 162, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* Result Cosmic Box */
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px dashed rgba(157, 78, 221, 0.4);
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box h3 {
+            font-size: 0.9rem;
+            color: var(--accent-pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-box p {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* SIDE: MAGIC BTS PHOTO FEATURE PORTAL */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .photo-portal-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 133, 162, 0.2);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .photo-portal-card h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .photo-portal-card p {
+            font-size: 0.85rem;
+            color: #bfaecf;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Aesthetic Image Frame Frame Container */
+        .bts-frame {
+            width: 100%;
+            height: 240px;
+            background: rgba(10, 5, 20, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 1.2rem;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+        }
+
+        .bts-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        .placeholder-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 10px rgba(157, 78, 221, 0.5));
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .magic-btn {
+            background: linear-gradient(45deg, rgba(157, 78, 221, 0.2), rgba(255, 133, 162, 0.2));
+            border: 1px solid var(--accent-pink);
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .magic-btn:hover {
+            background: var(--accent-pink);
+            color: #0b0514;
+            box-shadow: 0 0 15px var(--accent-pink-glow);
+            transform: scale(1.03);
+        }
+
+        /* GLASS FOOTER */
+        footer {
+            background: rgba(15, 7, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #8c7b9e;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive Layout for Tablet & Mobile */
+        @media (max-width: 950px) {
+            .solver-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .banner h1 {
+                font-size: 2.8rem;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 1.2rem;
+                padding: 1.2rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nebula-glow-1"></div>
+    <div class="nebula-glow-2"></div>
+
+    <header class="container">
+        <nav class="navbar">
+            <div class="logo">🔮 BTS ARMY MATH SIDE</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="diameter.html">Diameter</a></li>
+                <li><a href="area.html" class="active">Area</a></li>
+                <li><a href="volume.html">Volume</a></li>
+                <li><a href="perimeter.html">Perimeter</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="banner">
+            <h1>Area Suite</h1>
+            <p>“We look up into the same night sky, maps drawn from our hearts.” 📐</p>
+        </section>
+
+        <div class="solver-grid">
+            
+            <div class="solver-card">
+                <h2>Shape Area Calculator</h2>
+                
+                <div class="input-group">
+                    <label for="shapeType">Select Geometric Shape</label>
+                    <select id="shapeType" onchange="adaptShapeInputs()">
+                        <option value="circle">Circle 🪐</option>
+                        <option value="square">Square ⬜</option>
+                        <option value="triangle">Triangle 📐</option>
+                        <option value="rectangle">Rectangle 📊</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="val1" id="labelVal1">Radius (r)</label>
+                    <input type="number" id="val1" placeholder="e.g. 5" step="any" min="0">
+                </div>
+
+                <div class="input-group secondary-input" id="inputGroup2">
+                    <label for="val2" id="labelVal2">Height (h)</label>
+                    <input type="number" id="val2" placeholder="e.g. 8" step="any" min="0">
+                </div>
+
+                <button class="calc-btn" onclick="calculateArea()">Solve Spatial Area ✨</button>
+
+                <div class="result-box" id="resultBox">
+                    <h3>Calculated Area (A)</h3>
+                    <p id="resultText">0.00</p>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="photo-portal-card">
+                    <h3>ARMY Magic Portal</h3>
+                    <p>Take a study break and tune into our celestial constellation frame!</p>
+                    
+                    <div class="bts-frame" id="btsFrame">
+                        <div class="placeholder-icon" id="portalPlaceholder">🔮</div>
+                        </div>
+                      <img scr="bts.jpg"
+                    </div>
+
+                    <button class="magic-btn" onclick="triggerPortalMagic()">Reveal Magic Photo 💜</button>
+                </div>
+
+                <div class="photo-portal-card" style="border-color: rgba(157,78,221,0.2)">
+                    <h3 style="background: linear-gradient(45deg, #fff, var(--primary-color)); -webkit-background-clip: text;">Geometric Space Laws</h3>
+                    <p style="text-align: left; line-height: 1.5; font-size: 0.8rem; margin: 0;">
+                        • <strong>Circle:</strong> $A = \pi r^2$<br><br>
+                        • <strong>Square:</strong> $A = s^2$<br><br>
+                        • <strong>Triangle:</strong> $A = 0.5 \times b \times h$<br><br>
+                        • <strong>Rectangle:</strong> $A = w \times l$
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BTS ARMY MATH SIDE | Made with 💜 for ARMY</p>
+    </footer>
+
+    <script>
+        function adaptShapeInputs() {
+            const shape = document.getElementById('shapeType').value;
+            const labelVal1 = document.getElementById('labelVal1');
+            const inputGroup2 = document.getElementById('inputGroup2');
+            const labelVal2 = document.getElementById('labelVal2');
+            
+            // Reset input values
+            document.getElementById('val1').value = "";
+            document.getElementById('val2').value = "";
+            document.getElementById('resultBox').style.display = 'none';
+
+            if (shape === 'circle') {
+                labelVal1.innerText = "Radius (r)";
+                inputGroup2.style.display = "none";
+            } else if (shape === 'square') {
+                labelVal1.innerText = "Side Length (s)";
+                inputGroup2.style.display = "none";
+            } else if (shape === 'triangle') {
+                labelVal1.innerText = "Base Width (b)";
+                labelVal2.innerText = "Vertical Height (h)";
+                inputGroup2.style.display = "block";
+            } else if (shape === 'rectangle') {
+                labelVal1.innerText = "Width (w)";
+                labelVal2.innerText = "Length (l)";
+                inputGroup2.style.display = "block";
+            }
+        }
+
+        function calculateArea() {
+            const shape = document.getElementById('shapeType').value;
+            const v1 = parseFloat(document.getElementById('val1').value);
+            const v2 = parseFloat(document.getElementById('val2').value);
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+
+            if (isNaN(v1) || v1 <= 0) {
+                alert("Please add a real dimension value greater than 0! ⭐");
+                return;
+            }
+
+            let area = 0;
+
+            if (shape === 'circle') {
+                area = Math.PI * Math.pow(v1, 2);
+            } else if (shape === 'square') {
+                area = Math.pow(v1, 2);
+            } else if (shape === 'triangle') {
+                if (isNaN(v2) || v2 <= 0) { alert("Please provide a valid height! 📐"); return; }
+                area = 0.5 * v1 * v2;
+            } else if (shape === 'rectangle') {
+                if (isNaN(v2) || v2 <= 0) { alert("Please provide a valid length! 📊"); return; }
+                area = v1 * v2;
+            }
+
+            resultText.innerText = area.toFixed(4).replace(/\.?0+$/, '');
+            resultBox.style.display = 'block';
+        }
+
+        // PHOTO PORTAL ENGINE: Toggles placeholder to show custom loaded BTS visual image asset
+        function triggerPortalMagic() {
+            const placeholder = document.getElementById('portalPlaceholder');
+            const image = document.getElementById('btsImage');
+            
+            // Simply update the 'src' link text parameter below with your absolute localized or online path file image link for BTS!
+            image.src = "https://i.postimg.com/Y0q2gZ0k/bts-army-aesthetic.jpg"; 
+            
+            // Backup cloud link handling validation if domain breaks
+            image.onerror = function() {
+                // Alternately uses a beautiful iconic neon concert purple group crowd backdrop if custom file is unreachable
+                this.src = "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop";
+            };
+
+            placeholder.style.display = 'none';
+            image.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

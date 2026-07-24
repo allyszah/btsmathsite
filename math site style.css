@@ -1,0 +1,558 @@
+/* ==========================================
+   1. Design System & Variables
+   ========================================== */
+:root {
+    /* Dreamy, soft pastel gradient variables */
+    --bg-gradient: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #c3a6ff, #ffb3d9);
+    --panel-bg: rgba(255, 255, 255, 0.45); /* High transparency for a glassy look */
+    --primary-color: #6d28d9; /* Deep lavender purple */
+    --primary-hover: #4c1d95;
+    --accent-pink: #ff758f;
+    --text-color: #2e1a47; /* Deep purple-tinted charcoal */
+    --navbar-bg: rgba(255, 255, 255, 0.65);
+    --card-shadow: 0 8px 32px 0 rgba(109, 40, 217, 0.12);
+    --border-radius: 24px;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================
+   2. Reset, Global Styles & Animated Background
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    /* Animated shifting gradient background */
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    background-attachment: fixed;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Soft animated light blobs in the background */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+}
+body::before {
+    top: 10%;
+    left: 10%;
+}
+body::after {
+    bottom: 10%;
+    right: 10%;
+}
+
+/* ==========================================
+   3. Header & Navigation (Glassmorphism)
+   ========================================== */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    background: var(--navbar-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(109, 40, 217, 0.2);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.5rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid transparent;
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    background-color: rgba(109, 40, 217, 0.15);
+    border-color: rgba(109, 40, 217, 0.25);
+    color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(109, 40, 217, 0.1);
+}
+
+/* ==========================================
+   4. Main Content Layout & Typography
+   ========================================== */
+.container {
+    flex: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    width: 100%;
+}
+
+.banner {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    animation: fadeIn 1.2s ease;
+}
+
+.banner h1 {
+    text-shadow: 0 4px 12px rgba(123, 44, 191, 0.15);
+}
+
+.banner p {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #4b365f;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* ==========================================
+   5. Interactive Math, Cards & Glass Panels
+   ========================================== */
+.intro-card {
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    position: relative;
+    display: inline-block;
+}
+
+.intro-card h2::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 3px;
+    background: var(--accent-pink);
+    margin: 8px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* Grid Layout for Calculators */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.math-card {
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.math-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(109, 40, 217, 0.18);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.math-card h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.formula {
+    background: rgba(255, 117, 143, 0.18);
+    color: #b91c1c;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    padding: 0.6rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.05rem;
+    border: 1px solid rgba(255, 117, 143, 0.1);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.85rem;
+    border: 1px solid rgba(109, 40, 217, 0.15);
+    border-radius: 14px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 12px rgba(109, 40, 217, 0.25);
+}
+
+.btn-solve {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 14px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(109, 40, 217, 0.2);
+}
+
+.btn-solve:hover {
+    background: linear-gradient(135deg, #8b5cf6 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(109, 40, 217, 0.35);
+}
+
+.btn-solve:active {
+    transform: translateY(0);
+}
+
+.output-box {
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 0.9rem;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 700;
+    min-height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed rgba(109, 40, 217, 0.25);
+    word-break: break-all;
+    color: var(--primary-color);
+}
+
+/* ==========================================
+   6. Standard Calculator Styles
+   ========================================== */
+.calculator-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+.calc-screen {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(109, 40, 217, 0.15);
+    border-radius: 16px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-align: right;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+#calc-history {
+    font-size: 0.9rem;
+    color: #6d5d7a;
+    height: 1.2rem;
+    overflow: hidden;
+}
+
+#calc-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.calc-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 1.1rem 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-color);
+}
+
+.btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(109, 40, 217, 0.25);
+}
+
+.btn-operator {
+    background: rgba(255, 117, 143, 0.2);
+    color: #c01a4e;
+}
+
+.btn-operator:hover {
+    background: var(--accent-pink);
+    color: white;
+}
+
+.btn-special {
+    background: rgba(109, 40, 217, 0.15);
+    color: var(--primary-color);
+}
+
+.btn-special:hover {
+    background: var(--primary-hover);
+    color: white;
+}
+
+.btn-clear {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-clear:hover {
+    background: #dc2626;
+}
+
+.btn-backspace {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-backspace:hover {
+    background: #d97706;
+}
+
+.btn-equal {
+    background: linear-gradient(135deg, #8b5cf6, var(--primary-color));
+    color: white;
+}
+
+.btn-equal:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================
+   7. About Page Styles
+   ========================================== */
+.about-card {
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-top: 2rem;
+}
+
+.about-profile {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-frame {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--card-shadow);
+}
+
+.profile-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.profile-info .tag {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-pink);
+    margin: 0.2rem 0;
+}
+
+.profile-info .school {
+    font-style: italic;
+    color: #555;
+}
+
+.separator {
+    margin: 2rem 0;
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(109, 40, 217, 0.05), rgba(109, 40, 217, 0.4), rgba(109, 40, 217, 0.05));
+}
+
+.about-details h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.8rem 0;
+}
+
+.about-details p {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+
+.skills-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.skills-list li {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+}
+
+/* ==========================================
+   8. Footer
+   ========================================== */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: auto;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* ==========================================
+   9. Keyframe Animations & Media Queries
+   ========================================== */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .banner h1 {
+        font-size: 2.2rem;
+    }
+
+    .about-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+}

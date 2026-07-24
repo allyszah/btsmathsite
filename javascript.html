@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎀 Allyssah's Girly Pop JavaScript ✨</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background: linear-gradient(135deg, #ffd6ec, #ffeef8, #e8d9ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(255,105,180,.3);
+            width: 380px;
+        }
+
+        h1{
+            color:#ff4fa3;
+        }
+
+        p{
+            background:#fff0f7;
+            padding:12px;
+            border-radius:15px;
+            color:#7a4a8b;
+            font-size:18px;
+        }
+
+        button{
+            margin:8px;
+            padding:12px 20px;
+            border:none;
+            border-radius:25px;
+            background:#ff69b4;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        button:hover{
+            background:#ff1493;
+            transform:scale(1.05);
+        }
+
+        .dark{
+            background:#2c2c54;
+        }
+
+        .dark .card{
+            background:#4a4a6a;
+        }
+
+        .dark h1{
+            color:#ffd6ec;
+        }
+
+        .dark p{
+            background:#6b6b8d;
+            color:white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🎀 Allyssah's Girly Pop JavaScript ✨</h1>
+
+<p id="demo">✨ Click a button for some magic! ✨</p>
+
+<p id="compliment">💕 Need a compliment?</p>
+
+<p id="time">🕒 Time will appear here.</p>
+
+<p id="count">💗 Clicks: 0</p>
+
+<button onclick="showMessage()">💕 Click Me!</button>
+
+<button onclick="changeBackground()">🌈 Background</button>
+
+<button onclick="showTime()">🕒 Show Time</button>
+
+<button onclick="showCompliment()">✨ Compliment Me</button>
+
+<button onclick="countClicks()">💗 Count Clicks</button>
+
+<button onclick="toggleMode()">🌙 Dark Mode</button>
+
+</div>
+
+<script>
+
+function showMessage(){
+
+const messages=[
+"💖 Hello, Gorgeous!",
+"🌸 You're sparkling today!",
+"✨ Keep shining, Queen!",
+"🎀 You got this!",
+"🩷 Stay cute and confident!"
+];
+
+const random=Math.floor(Math.random()*messages.length);
+
+document.getElementById("demo").innerHTML=messages[random];
+
+}
+
+function changeBackground(){
+
+const colors=[
+"#FFD6EC",
+"#FFE5B4",
+"#E6E6FA",
+"#D8BFD8",
+"#FFFACD",
+"#D4F1F9",
+"#FFE4E1"
+];
+
+const random=Math.floor(Math.random()*colors.length);
+
+document.body.style.background=colors[random];
+
+}
+
+function showTime(){
+
+document.getElementById("time").innerHTML=
+"🕒 "+new Date().toLocaleString();
+
+}
+
+function showCompliment(){
+
+const compliments=[
+"🌸 You're amazing!",
+"💖 You light up every room!",
+"✨ You can achieve anything!",
+"🩷 Keep smiling, beautiful!",
+"🎀 You're one of a kind!"
+];
+
+const random=Math.floor(Math.random()*compliments.length);
+
+document.getElementById("compliment").innerHTML=compliments[random];
+
+}
+
+let clicks=0;
+
+function countClicks(){
+
+clicks++;
+
+document.getElementById("count").innerHTML=
+"💗 Clicks: "+clicks;
+
+}
+
+function toggleMode(){
+
+document.body.classList.toggle("dark");
+
+}
+
+</script>
+
+</body>
+</html>
